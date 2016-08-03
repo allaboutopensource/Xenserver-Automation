@@ -1,0 +1,29 @@
+Solution 1
+
+Run the following command on each host to verify that the VM is shutdown and is not running on any of the hosts:
+list_domains | grep <VM UUID>
+For example [root@localhost log]# list_domains | grep c4615dc5-a7ff-bf10-e675-49e64a749fb5
+
+If the response indicates any running VM, shut down the machine and reset the VDI, to allow the VM to start without error.
+To get the <VDI_UUID>, run the following command and then the script.
+#xe vm-disk-list uuid=<VM_UUID>
+Note: You will get two UUIDs of the following format-
+a.VBD_UUID
+b.VDI_UUID 
+Ensure to use VDI_UUID and not VBD_UUID.
+
+For hosts running post XenServer 6.1 with update XS61E015, the resetvdis.py script has been updated to allow a single VDI to be reset without having to stop all VMs running on the same SR.
+Reset the VDI using the following resetvdis.py command syntax:
+/opt/xensource/sm/resetvdis.py single <VDI UUID>
+
+Use the VDI UUID from the error message or refer to the previous step.
+
+To reset all VDIs together in a SR, use the following command:
+#/opt/xensource/sm/resetvdis.py all <HOST_UUID>  <SR_UUID>
+
+WARNING! Calling with 'all' on an attached SR, or using --force may cause DATA CORRUPTION if the VDI is still attached somewhere.
+Always manually double-check that the VDI is not in use before running this script.
+To manually check if a VDI is still attached, use the following command on each host:
+tap-ctl list | grep <VDI UUID>
+
+For hosts running XenServer versions prior to XenServer 6.1 with update XS61E015, the resetvdis.py script can only be run on the entire SR. All VMs on that SR have to be shutdown
