@@ -27,3 +27,5 @@ To manually check if a VDI is still attached, use the following command on each 
 tap-ctl list | grep <VDI UUID>
 
 For hosts running XenServer versions prior to XenServer 6.1 with update XS61E015, the resetvdis.py script can only be run on the entire SR. All VMs on that SR have to be shutdown
+
+========for testing purpose
