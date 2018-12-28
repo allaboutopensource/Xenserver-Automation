@@ -1,0 +1,8 @@
+pipeline {
+         agent any
+                 stage('One') {
+                          steps {
+                                  echo 'this is a test pipeline from sunil'
+                                  }
+                                }
+               }
