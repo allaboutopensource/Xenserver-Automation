@@ -1,4 +1,5 @@
-xenserver inventory script that runs everyday to list out the name of the vm's running under xenserver host. You need to keep the uuid of the xenserver in the file called "xenserver-host.txt"
+xenserver inventory script that runs everyday to list out the name of the vm's running under xenserver host. 
+You need to keep the uuid of the xenserver in the file called "xenserver-host.txt"
 
 
 #!/bin/python
