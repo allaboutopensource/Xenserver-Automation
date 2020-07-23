@@ -1,0 +1,27 @@
+---
+ - hosts: xenservers
+   gather_facts: true
+   become: yes
+   become_method: sudo
+
+   tasks:
+      - name: inserting the guest tools iso on the vm
+        command: xe vm-cd-insert uuid="{{ uuid }}" cd-name="guest-tools.iso"
+
+
+ - hosts: ubuntu-servers
+   tasks:
+     - name: Mounting the guest tools on the linux vm
+       command: mount /dev/cdrom /mnt -o,loop
+
+     - name: Install the script
+       command: /mnt/Linux/install.sh
+
+     - name: unmount the tools from the vm
+       command: umount /mnt
+
+
+ - hosts: xenservers
+   tasks:
+     - name: Ejecting the iso from the vm
+       command: xe vm-cd-eject vm="{{ uuid }}"
