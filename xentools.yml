@@ -3,6 +3,8 @@
    gather_facts: true
    become: yes
    become_method: sudo
+   var: 
+     - uuid: 1dgfgh3-12sdf3-2df23sfsf-123sdfdf
 
    tasks:
       - name: inserting the guest tools iso on the vm
