@@ -1,0 +1,29 @@
+---
+
+ -  name: Upgrading the Network drivers on the xenserver host
+    hosts: xenserver
+    become_method: sudo
+    become: yes
+    tags: hypervisor
+    gather_facts: true
+    vars:
+       driver_url: https://fileservice.citrix.com/download/secured/support/article/CTX137590/downloads/ixgbe-3.12.6-XS602E005.zip
+    tasks:
+        -   name: Download the latest network drivers from the Citrix website and Unarchiving the drivers ISO
+            unarchive:
+                    src: "{{ driver_url }}"
+                    dest: /tmp/
+                    remote_src: yes
+
+        -   name: Mounting the iso to the mnt folder
+            mount:
+               fstype: iso9660
+               src: /tmp/ixgbe.iso
+               path: /mnt
+               state: mounted
+
+        -   name: Running the install script
+            shell: "/mnt/install.sh"
+
+        -   name: unmounting the iso
+            shell: umount -l /mnt
